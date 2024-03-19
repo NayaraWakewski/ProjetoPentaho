@@ -5,6 +5,7 @@ Prof. Alex Sousa.
 ## 🚀 Visão Geral
 
 Este projeto envolve a construção de um Data Warehouse (DW) para a Base de Dados Corporativa, utilizada na Unidade 2 do Curso de Data Analytics. Foi utilizado o Pentaho Data Integration (PDI) para processos ETL (Extract, Transform, Load) e o VSCode com a biblioteca psycopg2 para consultas SQL no banco de dados. O projeto visa criar um Data Warehouse, um Job para execução da Transformação e um Agendamento deste Job, via agendador de tarefas do Windows.
+Toda a documentação consta no arquivo ipynb em anexo neste repositório.
 
 ### 🚀 Análise Geral
 
