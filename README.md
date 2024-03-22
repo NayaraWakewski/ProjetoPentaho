@@ -20,32 +20,18 @@ O DW é modelado usando um esquema estrela, com tabelas de fato e dimensão proj
 
 ##### Banco de Dados `corporativo_dw` e schema `public`
 
-**Dimensão Estado - dim_estado** 
-- `id_estado`: SERIAL PRIMARY KEY
-- `sigla`: TEXT
-- `descricao`: TEXT
-
-**Dimensão Cidade - dim_cidade** 
-- `id_cidade`: SERIAL PRIMARY KEY
-- `id_estado`: INTEGER, FOREIGN KEY REFERENCES `dim_estado(id_estado)`
-- `descricao`: TEXT
-
-**Dimensão Bairro - dim_bairro** 
-- `id_bairro`: SERIAL PRIMARY KEY
-- `id_cidade`: INTEGER, FOREIGN KEY REFERENCES `dim_cidade(id_cidade)`
-- `descricao`: TEXT
-
 **Dimensão Endereço - dim_endereco** 
 - `id_endereco`: SERIAL PRIMARY KEY
-- `id_bairro`: INTEGER, FOREING KEY REFERENCES  `dim_bairro(bairro)`
 - `rua`: TEXT
 - `numero`: TEXT
-- `cep`: TEXT
 - `complemento`: TEXT
-- `id_cidade`: INTEGER, FOREIGN KEY REFERENCES `dim_cidade(id_cidade)` -- Alteração posterior
-- `id_estado`: INTEGER, FOREIGN KEY REFERENCES `dim_estado(id_estado)` -- Alteração posterior
+- `descricao_bairro`: TEXT
+- `descricao_cidade`: TEXT
+- `cep`: TEXT
+- `descricao_estado`: TEXT
+- `sigla`: TEXT
 
-**Dimensão Contato**
+**Dimensão Contato - dim_contato**
 - `id_contato`: SERIAL PRIMARY KEY
 - `descricao`: TEXT
 - `principal`: BOOLEAN
@@ -69,50 +55,33 @@ O DW é modelado usando um esquema estrela, com tabelas de fato e dimensão proj
 - `id_contato`: TIMESTAMP WITH TIME ZONE
 - `endereco_id`: INTEGER, FOREIGN KEY REFERENCES `dim_endereco(endereco_id)`
 
-**Dimensão Cargo - dim_cargo** 
-- `id_cargo`: SERIAL PRIMARY KEY
-- `descricao`: TEXT
-
-**Dimensão Departamento - dim_departamento** 
-- `id_departamento`: SERIAL PRIMARY KEY
-- `descricao`: TEXT
-- `sigla`: TEXT
-
-**Dimensão Escolaridade - dim_escolaridade** 
-- `id_escolaridade`: SERIAL PRIMARY KEY
-- `descricao`: TEXT
-- `codigo`: TEXT
-
 **Dimensão Funcionário - dim_funcionario** 
 - `id_funcionario`: INTEGER PRIMARY KEY
-- `id_pessoa`: INTERGER
-- `id_escolaridade`: INTEGER, FOREIGN KEY REFERENCES `dim_escolaridade(id_escolaridade)`
-- `pretensao_salarial`: NUMERIC
+- `id_pessoa_fisica`: INTERGER
 - `nome`: TEXT
+- `descricao_escolaridade`: TEXT
+- `descricao_departamento`: TEXT
+- `sigla_departamento`: TEXT
+- `descricao_cargo`: TEXT
 - `pcd`: BOOLEAN
-- `id_cargo`: INTEGER, FOREIGN KEY REFERENCES `dim_cargo(id_cargo)`
-- `id_departamento`: INTEGER, FOREIGN KEY REFERENCES `dim_departamento(id_departamento)`
+- `pretensao_salarial`: NUMERIC
+- `salario`: NUMERIC
 - `data_cadastro`: TIMESTAMP WITH TIME ZONE
 - `data_desligamento`: TIMESTAMP WITH TIME ZONE
-- `salario`: NUMERIC
 
-**Dimensão Categoria - dim_categoria** 
-- `id_categoria`: SERIAL PRIMARY KEY
-- `descricao`: TEXT
+**Dimensão Produto - dim_produto**  
+- `id_produto`: SERIAL PRIMARY KEY
+- `id_fornecedor`: INTEGER -- não existe tabela fornecedor então não tem fk.
+- `nome_produto`: TEXT
+- `descricao_categoria`: TEXT
+- `valor_venda`: NUMERIC
+- `valor_custo`: NUMERIC
 
 **Dimensão Forma Pagamento - dim_forma_pagamento** 
 - `id_forma_pagamento`: SERIAL PRIMARY KEY
 - `descricao`: TEXT
 
-**Dimensão Produto - dim_produto**  
-- `id_produto`: SERIAL PRIMARY KEY
-- `id_fornecedor`: INTEGER -- não existe tabela fornecedor então não tem fk.
-- `id_categoria`: INTEGER, FOREIGN KEY REFERENCES `dim_categoria(id_categoria)`
-- `nome`: TEXT
-- `valor_venda`: NUMERIC
-- `valor_custo`: NUMERIC
-
-**Fato Vendas - fato_vendas** 
+**Fato Vendas - fato_vendas**
 - `id_produto`: INTEGER, FOREIGN KEY REFERENCES `dim_produto(produto_id)`
 - `id_nota_fiscal`: INTEGER
 - `quantidade`: INTEGER
@@ -123,6 +92,7 @@ O DW é modelado usando um esquema estrela, com tabelas de fato e dimensão proj
 - `data_venda`: TIMESTAMP WITH TIME ZONE
 - `numero_nf`: TEXT
 - `total`: NUMERIC
+
 
 ## 🚀 Processo ETL
 
